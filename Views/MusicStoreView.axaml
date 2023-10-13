@@ -8,12 +8,23 @@
              x:Class="MusicStore.Views.MusicStoreView">
   <DockPanel>
     <StackPanel DockPanel.Dock="Top">
-      <TextBox Watermark="Search for Albums...." Text="{Binding SearchString}" />
-      <ProgressBar IsIndeterminate="True" IsVisible="{Binding IsBusy}" />
+      <TextBox Watermark="Search for Albums...."
+              Text="{Binding SearchString}" />
+      <ProgressBar IsIndeterminate="True"
+                  IsVisible="{Binding IsBusy}" />
     </StackPanel>
     <Button Content="Buy Album" 
             DockPanel.Dock="Bottom" 
             HorizontalAlignment="Center" />
-    <ListBox/>
+    <ListBox ItemsSource="{Binding SearchResults}"
+            SelectedItem="{Binding SelectedAlbum}"
+            Background="Transparent"
+            Margin="0 20">
+      <ListBox.ItemsPanel>
+        <ItemsPanelTemplate>
+          <WrapPanel />
+        </ItemsPanelTemplate>
+      </ListBox.ItemsPanel>
+    </ListBox>
   </DockPanel>
 </UserControl>
