@@ -1,8 +1,10 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using MusicStore.Model;
 using ReactiveUI;
 
@@ -16,6 +18,7 @@ public class MusicStoreViewModel : ViewModelBase
     private CancellationTokenSource? _cancellationTokenSource;
 
     public ObservableCollection<AlbumViewModel> SearchResults { get; } = new();
+    public ReactiveCommand<Unit, AlbumViewModel?> BuyAlbumCommand { get; }
 
     public string? SearchString {
         get => _searchString;
@@ -38,6 +41,12 @@ public class MusicStoreViewModel : ViewModelBase
             .Throttle(TimeSpan.FromMilliseconds(400))
             .ObserveOn(RxApp.MainThreadScheduler)
             .Subscribe(DoSearch!);
+        
+        BuyAlbumCommand = ReactiveCommand.Create(() => 
+            {
+                return SelectedAlbum;
+            }
+        );
     }
        
     private async void DoSearch(string s)

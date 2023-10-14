@@ -1,13 +1,15 @@
-using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Markup.Xaml;
+using System;
+using Avalonia.ReactiveUI;
+using MusicStore.ViewModels;
+using ReactiveUI;
 
 namespace MusicStore.Views;
 
-public partial class MusicStoreWindow : Window
+public partial class MusicStoreWindow : ReactiveWindow<MusicStoreViewModel>
 {
     public MusicStoreWindow()
     {
         InitializeComponent();
+        this.WhenActivated(d => d(ViewModel!.BuyAlbumCommand.Subscribe(Close)));
     }
 }
